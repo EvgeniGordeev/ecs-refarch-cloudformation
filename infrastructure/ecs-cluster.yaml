@@ -105,6 +105,7 @@ Resources:
         Type: AWS::AutoScaling::LaunchConfiguration
         Properties:
             KeyName: ecs-sample
+            AssociatePublicIpAddress: true
             ImageId:  !FindInMap [AWSRegionToAMI, !Ref "AWS::Region", AMI]
             InstanceType: !Ref InstanceType
             SecurityGroups: 
