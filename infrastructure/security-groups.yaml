@@ -13,6 +13,10 @@ Parameters:
         Type: AWS::EC2::VPC::Id
         Description: Choose which VPC the security groups should be deployed to
 
+Mappings:
+  IPMap:
+    SecureIP: {IP: 0.0.0.0/0} # my ip
+
 Resources:
 
     # This security group defines who/where is allowed to access the ECS hosts directly.
@@ -24,6 +28,7 @@ Resources:
             VpcId: !Ref VPC
             GroupDescription: Access to the ECS hosts and the tasks/containers that run on them
             SecurityGroupIngress:
+                - {FromPort: 22, ToPort: 22, CidrIp: !FindInMap [IPMap, SecureIP, IP], IpProtocol: tcp}
                 # Only allow inbound access to ECS from the ELB
                 - SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup 
                   IpProtocol: -1
