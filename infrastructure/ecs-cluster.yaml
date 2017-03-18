@@ -14,9 +14,14 @@ Parameters:
         Default: t2.micro
 
     ClusterSize:
-        Description: How many ECS hosts do you want to initially deploy?
+        Description: How many ECS hosts do you want to use at most?
         Type: Number
         Default: 4
+
+    DesiredCapacity:
+        Description: How many ECS hosts do you want to initially deploy?
+        Type: Number
+        Default: 1
 
     VPC:
         Description: Choose which VPC this ECS cluster should be deployed to
@@ -79,9 +84,9 @@ Resources:
         Properties: 
             VPCZoneIdentifier: !Ref Subnets
             LaunchConfigurationName: !Ref ECSLaunchConfiguration
-            MinSize: !Ref ClusterSize
+            MinSize: 1
             MaxSize: !Ref ClusterSize
-            DesiredCapacity: !Ref ClusterSize
+            DesiredCapacity: !Ref DesiredCapacity
             Tags: 
                 - Key: Name
                   Value: !Sub ${EnvironmentName} ECS host
